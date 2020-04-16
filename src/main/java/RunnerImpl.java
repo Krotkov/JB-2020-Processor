@@ -44,16 +44,9 @@ public class RunnerImpl<T> implements Runner<T> {
     }
 
     private boolean checkCycles(Set<Processor<T>> processors) {
-        // TODO rewrite this shit
         Map<String, List<String>> edges = new HashMap<>();
         for (Processor<T> processor : processors) {
-            edges.put(processor.getId(), new ArrayList<>());
-        }
-        for (Processor<T> processor : processors) {
-            List<String> ancestors = processor.getInputIds();
-            for (String a : ancestors) {
-                edges.get(a).add(processor.getId());
-            }
+            edges.put(processor.getId(), processor.getInputIds());
         }
         Map<String, Integer> used = new HashMap<>();
         for (String key : edges.keySet()) {
